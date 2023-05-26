@@ -1,2 +1,2 @@
 # react-node-firebase-auth
-A simple authentication | Authentication module using React, Node and Firebase
+A simple Authentication | Authorization module using React, Node and Firebase
