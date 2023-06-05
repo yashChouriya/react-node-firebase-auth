@@ -10,7 +10,7 @@ function authUser(req,res,next){
     try{
         const decode=verifyToken(token);
         if(!decode){
-            return res.send('Invalid Token')
+            return res.send('Invalid Token');
         }
         req.user=decode;
     }
