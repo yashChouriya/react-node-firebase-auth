@@ -28,25 +28,25 @@ Project is split in Two parts : **Frontend & Server**
 
 In Frontend I wrote all codes for Frontend and in Server the code is for Backend,
 
-Firstly Clone the git repository in your Computer / Laptop
+Step 1 : Firstly Clone the git repository in your Computer / Laptop
     
-    Step 1 : git clone https://github.com/yashChouriya/react-node-firebase-auth/
+    git clone https://github.com/yashChouriya/react-node-firebase-auth/
 
 Now Files are downloaded in your Device
 
 Now open Two Terminals : One for Frontend and Second for Backend
 
-On first Terminal go to either folder and run command 
+Step 2 : On first Terminal go to either folder and run command 
     
-    Step 2 : npm start
+    npm start
 
-on second terminal go to another folder and run command 
+Step 3 : on second terminal go to another folder and run command 
     
-    Step 3 : npm start
+    npm start
 
-Both will run on different Ports and now you can Access or Visit the Webpage on 
+Step 4 : Both will run on different Ports and now you can Access or Visit the Webpage on 
     
-    Step 4 : http://localhost:3000/
+    http://localhost:3000/
 
 
 ## Usage 
