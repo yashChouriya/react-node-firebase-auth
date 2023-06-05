@@ -9,7 +9,7 @@ let OTP, user;
 async function addUser(req, res) {
   try {
     const { name, email, password } = req.body;
-    OTP = parseInt(otpGenerator(4));
+    OTP = parseInt(otpGenerator(6));
     user = {
       name: name,
       email: email,

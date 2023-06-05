@@ -17,6 +17,7 @@ I used
     
 3. Axios library to call Api's from Backend
 4. Firebase to store User's Information and Authentication
+5. Also used various libraries like totp-generator, nodemailer, nodemon, cors etc.. for backend work.
 
 ## Challenges
 In this Project, It is still in development because Apple Api is not working Right Now,

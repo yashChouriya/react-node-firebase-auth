@@ -1,13 +1,16 @@
 
+const totp=require('totp-generator');
 // generating OTP 
 
 function otpGenerator(otpDigitCount){
-    const digits='0123456789';
-    let OTP='';
-    for(var i=0;i<otpDigitCount;i++){
-        OTP+=digits[Math.floor(Math.random()*10)];
-    }
-    return OTP;
+    const otp = totp("JBSWY3DPEHPK3PXP", {
+        digits: otpDigitCount,
+        algorithm: "SHA-512",
+        period: 30,
+    });
+    
+    return otp;
+
 }
 
 module.exports={otpGenerator};
