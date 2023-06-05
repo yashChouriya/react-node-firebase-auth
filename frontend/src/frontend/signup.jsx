@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/signup.css';
+import Modal from './modal';
 
 const SignUp = () => {
 
     const [values, setValues] = useState({
         email: '',
         name: '',
-        password: ''
+        password: '',
+        otp: ''
     });
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [msg, setMsg] = useState({
         error: "",
@@ -18,7 +22,7 @@ const SignUp = () => {
     const validateValues = () => {
         const { email, name, password } = values;
         let emailValid = document.getElementById('email').validity.valid;
-        if (!email&&!name&&!password) {
+        if (!email && !name && !password) {
             return setMsg({ error: "Fill All Details" })
         }
         if (!email) {
@@ -36,33 +40,44 @@ const SignUp = () => {
         return true;
     }
 
-    const handleSignup = async () => {
+    const handleOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleModalOTP = async () => {
         const validValues = validateValues();
         if (!validValues) {
             return;
         }
-
-        const {data:verified}=await axios.get('http://localhost:8001/signup/checkEmail/'+values.email);
-        if(verified){
-            return setMsg({error:"Email Already Exists"})
+        const { data: verified } = await axios.get('http://localhost:8001/signup/checkEmail/' + values.email);
+        if (verified) {
+            return setMsg({ error: "Email Already Exists" })
         }
-        
         await axios.post('http://localhost:8001/signup', values);
-        const otp={
-            otp:parseInt(prompt("Enter The Verification OTP send to Your Mail ID"))
+        handleOpenModal();
+    }
+
+    const handleSignup = async () => {
+        if (!values.otp) {
+             handleCloseModal();
+             return setMsg({ error: "Enter OTP to Continue." });
         }
-        if(!otp.otp){
-            return setMsg({error:"Enter OTP to Continue."})
-        }
-        if(otp){
-            const response=await axios.post('http://localhost:8001/signup/verifyOtp',otp);
-            if(response.data==="Invalid OTP"){
-                return setMsg({error:"Invalid OTP Entered."})
-            }else if(response.data===true){
-                sessionStorage.setItem('token',response.headers['x-auth-token']);
-                return setMsg({success:"Successfully Sign Up"});
-            }else{
-                 setMsg({error:response})
+        if (values.otp) {
+            const response = await axios.post('http://localhost:8001/signup/verifyOtp', values);
+            if (response.data === "Invalid OTP") {
+                handleCloseModal();
+                return setMsg({ error: "Invalid OTP Entered." })
+            } else if (response.data === true) {
+                sessionStorage.setItem('token', response.headers['x-auth-token']);
+                handleCloseModal();
+                return setMsg({ success: "Successfully Sign Up" });
+            } else {
+                handleCloseModal();
+                setMsg({ error: response })
             }
         }
     }
@@ -73,7 +88,7 @@ const SignUp = () => {
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
             </svg>
-                </span><input type="text" className="mb-2" id="name" placeholder="Enter Username" onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))} /><br />
+            </span><input type="text" className="mb-2" id="name" placeholder="Enter Username" onChange={(e) => setValues((prev) => ({ ...prev, name: e.target.value }))} /><br />
 
             <span className="sideIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-envelope-at" viewBox="0 0 16 16">
                 <path d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2H2Zm3.708 6.208L1 11.105V5.383l4.708 2.825ZM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2-7-4.2Z" />
@@ -84,14 +99,19 @@ const SignUp = () => {
                 <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
             </svg></span><input type="password" id="password" placeholder="Enter Password" onChange={(e) => setValues((prev) => ({ ...prev, password: e.target.value }))} required />
 
+            <Modal isOpen={modalOpen} onClose={handleCloseModal}>
+                <h5 className="mt-5 mb-3">OTP is Send For Verification on your Email ID</h5>
+                <input type="number" className="my-2" id="otp" placeholder="Enter your OTP to Continue" onChange={(e) => setValues((prev) => ({ ...prev, otp: parseInt(e.target.value) }))} required /><br />
+                <button className="btn btn-primary w-100 mt-2" onClick={handleSignup}>Verify</button>
+            </Modal>
             <span className="errorMsg">
                 {msg.error ? msg.error : ""}
             </span>
             <span className="successMsg">
                 {msg.success ? msg.success : ""}
             </span>
-            <button className="btn btn-primary w-100 mt-2" onClick={handleSignup}>Sign Up</button>
-          </div>
+            <button className="btn btn-primary w-100 mt-2" onClick={handleModalOTP}>Sign Up</button>
+        </div>
     )
 }
 
