@@ -1,0 +1,52 @@
+
+
+.sideIcon{
+    position:absolute;
+    margin-left:10px; 
+    margin-top:7px; 
+    padding-right:7px;
+    border-right:1px solid grey; 
+}
+
+.verifyIcon{
+    position:absolute;
+    margin-left:-30px; 
+    margin-top:7px;
+    color:green;  
+}
+
+.unverifyIcon{
+    position:absolute;
+    margin-left:-30px; 
+    margin-top:7px;
+    color:red;  
+}
+
+.input{
+    display:block;
+   
+    line-height: 30px;
+    font-size:12px;
+}
+
+input[type="email"] {
+    padding-left:38px;
+    padding-right:38px;
+    outline:0;
+    height:2.5rem;
+    width:100%;
+    border:1px solid rgb(163, 162, 162);
+    border-radius: 10px;
+}
+
+  
+.errorMsg{
+    color:rgb(182, 0, 0);
+    font-size:12px;
+}
+
+.successMsg{
+    color:rgb(0, 90, 0);
+    font-size:12px;
+
+}

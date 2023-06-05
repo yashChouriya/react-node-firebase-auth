@@ -1,0 +1,126 @@
+.switchMainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switchContainer {
+    height: 2.5rem;
+    width: 45vh;
+    align-items: center;
+    border-radius: 10px;
+    text-align: center;
+    background-color: rgb(187, 184, 184);
+    display: flex;
+    flex-direction: row;
+}
+
+.authMainContainer {
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.authContainer {
+    height: auto;
+    width: 45vh;
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+    /* background-color: rgb(187, 184, 184); */
+    display: flex;
+    flex-direction: column;
+}
+
+.mainFooter{
+    text-align: center;  
+    font-size: small;  
+    color:rgb(133, 132, 132);
+}
+
+.activebutton {
+    display: block;
+    width: 50%;
+    height: 2.2rem;
+    border:none;
+    border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+    background-color: white;
+}
+
+.inactivebutton {
+    display: block;
+    width: 50%;
+    height: 2.2rem;
+    border:none;
+    border-radius: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    text-align: center;
+}
+
+.activebutton:hover{
+    background-color: white;
+    transition: .5s;
+}
+
+
+.buttonText {
+    text-align: center;
+    font-size: 12px;
+}
+
+.hrLineMainContainer {
+    margin-top: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hrlineContainer{
+    width:45vh;
+}
+
+.horizontal-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #777676;
+}
+
+.text {
+    padding: 0 10px;
+    font-size:12px;
+    color:rgb(80, 78, 78);
+}
+
+.socialAppsMainContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: space-between;
+}
+
+.socialAppsContainer{
+    width:45vh;
+    margin:auto;
+    align-items: center;
+    border-radius: 10px;
+    text-align: center;
+    /* background-color: rgb(187, 184, 184); */
+}
+
+.socialLinkBtn{
+    margin-left:10px;
+    margin-right: 10px;
+}
+

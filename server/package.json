@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "firebase": "^9.22.1",
+    "firebase-admin": "^11.8.0",
+    "googleapis": "^118.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^6.9.3",
+    "nodemailer-mailgun-transport": "^2.1.5",
+    "nodemailer-sendinblue-transport": "^2.0.1",
+    "nodemailer-sparkpost-transport": "^2.2.0",
+    "nodemon": "^2.0.22",
+    "twilio": "^4.11.1"
+  }
+}
