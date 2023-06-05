@@ -8,9 +8,13 @@ and also Social Apps Authentications like Google, Facebook etc...
 I used  
 1. React Js for Frontend Work including Bootstrap library for styling elements.
 2. Node Js and Express Js for Backend Work such as 
+    
     -Routing Pages, 
+    
     -Authentication Token generation using JsonWebToken,
+    
     -Use Middlewares to Protect Routes from Unauthorized Access.
+    
 3. Axios library to call Api's from Backend
 4. Firebase to store User's Information and Authentication
 
@@ -25,6 +29,7 @@ Project is split in Two parts : **Frontend & Server**
 In Frontend I wrote all codes for Frontend and in Server the code is for Backend,
 
 Firstly Clone the git repository in your Computer / Laptop
+    
     -Step 1 : git clone https://github.com/yashChouriya/react-node-firebase-auth/
 
 Now Files are downloaded in your Device
@@ -32,12 +37,15 @@ Now Files are downloaded in your Device
 Now open Two Terminals : One for Frontend and Second for Backend
 
 On first Terminal go to either folder and run command 
+    
     -Step 2 : npm start
 
 on second terminal go to another folder and run command 
+    
     -Step 3 : npm start
 
 Both will run on different Ports and now you can Access or Visit the Webpage on 
+    
     -Step 4 : http://localhost:3000/
 
 
