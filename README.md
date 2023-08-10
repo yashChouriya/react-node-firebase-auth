@@ -39,11 +39,11 @@ Now open Two Terminals : One for Frontend and Second for Backend
 
 Step 2 : On first Terminal go to either folder and run command 
     
-    npm start
+    npm i && npm start
 
 Step 3 : on second terminal go to another folder and run command 
     
-    npm start
+    npm i && npm start
 
 Step 4 : Both will run on different Ports and now you can Access or Visit the Webpage on 
     
