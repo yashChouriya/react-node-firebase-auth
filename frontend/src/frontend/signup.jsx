@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './styles/signup.css';
-import Modal from './modal';
+import SnackBar from './utils/snackbarNotify';
+import { getAuth, updateProfile } from 'firebase/auth';
+import { storage, db } from '../firebase/firebase';
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
 
@@ -9,15 +14,17 @@ const SignUp = () => {
         email: '',
         name: '',
         password: '',
-        otp: ''
+        image: ''
     });
-
-    const [modalOpen, setModalOpen] = useState(false);
 
     const [msg, setMsg] = useState({
         error: "",
         success: ""
     })
+
+    const navigate=useNavigate();
+
+    const [showSnack, setSnack] = useState(false);
 
     const validateValues = () => {
         const { email, name, password } = values;
@@ -40,50 +47,56 @@ const SignUp = () => {
         return true;
     }
 
-    const handleOpenModal = () => {
-        setModalOpen(true);
-    };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
-    const handleModalOTP = async () => {
-        const validValues = validateValues();
-        if (!validValues) {
-            return;
-        }
-        const { data: verified } = await axios.get('http://localhost:8001/signup/checkEmail/' + values.email);
-        if (verified) {
-            return setMsg({ error: "Email Already Exists" })
-        }
-        await axios.post('http://localhost:8001/signup', values);
-        handleOpenModal();
-    }
-
-    const handleSignup = async () => {
-        if (!values.otp) {
-             handleCloseModal();
-             return setMsg({ error: "Enter OTP to Continue." });
-        }
-        if (values.otp) {
-            const response = await axios.post('http://localhost:8001/signup/verifyOtp', values);
-            if (response.data === "Invalid OTP") {
-                handleCloseModal();
-                return setMsg({ error: "Invalid OTP Entered." })
-            } else if (response.data === true) {
-                sessionStorage.setItem('token', response.headers['x-auth-token']);
-                handleCloseModal();
-                return setMsg({ success: "Successfully Sign Up" });
-            } else {
-                handleCloseModal();
-                setMsg({ error: response })
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const valid = validateValues();
+        if(valid){
+            const auth = getAuth();
+            try {
+    
+    
+                const res = await createUserWithEmailAndPassword(auth, values.email, values.password);
+    
+                var fileInput = document.getElementById('file');
+                var file = fileInput.files[0];
+                let path = 'images/' + values.name;
+                let storageRef = ref(storage, path);
+    
+                const metadata = {
+                    contentType: 'image/jpeg',
+                };
+    
+                await uploadBytes(storageRef, file, metadata).then((snapshot) => {
+                    getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+                        await updateProfile(res.user, {
+                            displayName: values.name,
+                            photoURL: downloadURL
+                        })
+                        await setDoc(doc(db, "users", res.user.uid), {
+                            uid: res.user.uid, name: values.name, email: values.email, photoURL: downloadURL
+                        });
+                        setSnack(true);
+                        localStorage.setItem('token', res.user.accessToken);
+    
+                        await setDoc(doc(db, 'userChats', res.user.uid, ),{});
+                        navigate('/dashboard');
+                    });
+                }).catch((error) => {
+                    console.error('Image upload failed:', error);
+                });
             }
+            catch (err) { console.log(err) };
         }
     }
+
+
 
     return (
-        <div className="mt-2">
+        <div className="mt-2">{showSnack && (
+            <SnackBar text="Successfully SignUp" />
+        )}
+
             <span className="sideIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
@@ -98,19 +111,20 @@ const SignUp = () => {
             <span className="sideIcon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-key-fill" viewBox="0 0 16 16">
                 <path d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
             </svg></span><input type="password" id="password" placeholder="Enter Password" onChange={(e) => setValues((prev) => ({ ...prev, password: e.target.value }))} required />
-
-            <Modal isOpen={modalOpen} onClose={handleCloseModal}>
-                <h5 className="mt-5 mb-3">OTP is Send For Verification on your Email ID</h5>
-                <input type="number" className="my-2" id="otp" placeholder="Enter your OTP to Continue" onChange={(e) => setValues((prev) => ({ ...prev, otp: parseInt(e.target.value) }))} required /><br />
-                <button className="btn btn-primary w-100 mt-2" onClick={handleSignup}>Verify</button>
-            </Modal>
+            <input type="file" style={{ display: 'none' }} id="file" onChange={(e) => setValues((prev) => ({ ...prev, image: e.target.value }))} />
+            <label htmlFor='file'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-paperclip" viewBox="0 0 16 16">
+                    <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                </svg>
+            </label>
+            <span className='text'>Add an Avatar</span><br/>
             <span className="errorMsg">
                 {msg.error ? msg.error : ""}
             </span>
             <span className="successMsg">
                 {msg.success ? msg.success : ""}
             </span>
-            <button className="btn btn-primary w-100 mt-2" onClick={handleModalOTP}>Sign Up</button>
+            <button className="btn btn-primary w-100 mt-2" onClick={handleSignUp}>Sign Up</button>
         </div>
     )
 }

@@ -1,0 +1,90 @@
+.videobtn {
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+
+.micbtn {
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-align: center;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+
+.endCall {
+    background-color: red;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+
+.callbtn {
+    background-color: green;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 4rem;
+}
+
+.rejectbtn {
+    background-color: red;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    margin-top: 4rem;
+}
+
+
+.callbtn:hover {
+    background-color: rgba(0, 128, 0, 0.644);
+}
+
+.rejectbtn:hover {
+    background-color: rgba(255, 0, 0, 0.596);
+}
+
+.endCall:hover {
+    background-color: rgba(255, 0, 0, 0.596);
+}
+
+.videobtn:hover {
+    background-color: white;
+    color: #2f2d52;
+}
+
+.micbtn:hover {
+    background-color: white;
+    color: #2f2d52;
+}
